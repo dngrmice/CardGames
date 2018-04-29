@@ -16,6 +16,7 @@ export default class Game extends Component {
     showRules: false,
     wins: 0,
     games: 0,
+    playerName: 'Guest'
   }
 
   toggleRules = () => {
@@ -25,7 +26,8 @@ export default class Game extends Component {
   newGame = () => {
     const deck = newDeck()
     const { games } = this.state
-    this.setState({ started: true, deck })
+    const username = this.username.value || 'Guest'
+    this.setState({ started: true, deck, playerName: username })
     setTimeout(() => this.deal(), 50)
   }
 
@@ -87,7 +89,7 @@ export default class Game extends Component {
 
   render () {
 
-    const { wins, games, started, deck, playerHand, dealerHand, showRules, turn } = this.state
+    const { playerName, wins, games, started, playerHand, dealerHand, showRules, turn } = this.state
     let dealerIndex = 1
     let playerIndex = 3
 
@@ -100,11 +102,16 @@ export default class Game extends Component {
       {!started && <div className='start-game'>
 
         <hr/>
-        <h3>Your Name</h3>
-        <p><input type='text' /></p>
+
+        <p><input
+          ref={input => this.username = input}
+          className='nameInput'
+          placeholder="Howdy Partner, What's Your Name"
+          type='text'
+        /></p>
 
         <button
-          className='btn btn-primary'
+          className='btn btn-primary btn-lg'
           onClick={this.newGame}
         >
           Start Game
@@ -128,15 +135,13 @@ export default class Game extends Component {
         </div>
 
         <div className='hand'>
-          <h3>Your Hand</h3>
+          <h3>{playerName} | Hand {countHand(playerHand).join(', ')}</h3>
           { playerHand && playerHand.map(card => <Card
             className='hand-card'
             visible={true}
             value={card}
             delay={(playerIndex++ % 2) * 500}
           />)}
-
-          <h4>Hand: {countHand(playerHand).join(', ')}</h4>
 
           {turn === 'player' && <div>
             <button onClick={this.hold} className='btn btn-primary'>
@@ -149,14 +154,16 @@ export default class Game extends Component {
           </div>}
 
           {turn === 'lost' && <div>
-            <p>You Lost! :(</p>
+            <hr/>
+            <h2>You Lost! :(</h2>
             <button className='btn btn-primary' onClick={this.deal}>
               Deal New Hand
             </button>
           </div>}
 
           {turn === 'won' && <div>
-            <p>You Won!</p>
+            <hr/>
+            <h2>You Won!</h2>
             <button className='btn btn-primary' onClick={this.deal}>
               Deal New Hand
             </button>
