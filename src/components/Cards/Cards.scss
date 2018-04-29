@@ -1,0 +1,16 @@
+.card {
+  display: inline-block;
+  background: url('./assets/deck.jpg') no-repeat;
+  background-size: 1462px 630px;
+  background-position: -3px -4px;
+  width: 112px;
+  height: 158px;
+  border: 2px solid #fff;
+  margin: 5px;
+  box-shadow: 0 0 2px #999;
+  border-radius: 9px;
+
+  &:hover {
+    box-shadow: 0 0 5px #ccc;
+  }
+}

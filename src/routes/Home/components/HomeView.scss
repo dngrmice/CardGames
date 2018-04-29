@@ -1,5 +1,23 @@
-.duck {
-  display: block;
-  width: 120px;
-  margin: 1.5rem auto;
+.games-container {
+  width: 80%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.game {
+  display: inline-block;
+  width: 300px;
+  margin: 3rem auto;
+
+  .card1 {
+    transform: rotate(-10deg);
+    display: inline-block;
+    margin-right: -10px;
+  }
+
+  .card2 {
+    transform: rotate(10deg);
+    display: inline-block;
+    margin-left: -10px;
+  }
 }

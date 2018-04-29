@@ -1,0 +1,15 @@
+.visible {
+  display: inline-block;
+  max-width: 90%;
+  width: 300px;
+  vertical-align: center;
+  position: fixed;
+  background: #fff;
+  padding: 15px;
+  color: #333;
+  text-shadow: none;
+}
+
+.hidden {
+  display: none;
+}

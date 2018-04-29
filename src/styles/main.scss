@@ -11,8 +11,24 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  font-size: 14px;
   font-family: 'Do Hyeon', sans-serif;
+  background: #555 url("assets/noise.png");
+  text-shadow: 0 1px 1px #000;
+  padding: 15px;
+}
+
+h1 {
+  text-transform: uppercase; }
+
+a {
+  color: #f56c56;
+  transition: 0.2s;
+}
+
+a:hover {
+  color: #fff;
+  text-decoration: none;
 }
 
 *,
