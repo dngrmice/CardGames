@@ -65,3 +65,9 @@ export const isBusted = (hand) => {
   const counts = validCounts(hand)
   return !counts.length
 }
+
+export const dealerHolds = (hand) => {
+  const counts = validCounts(hand)
+  counts.filter(count => count > 16)
+  return !!counts.length
+}

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { newDeck } from 'utils/cards'
 import Card from 'components/Cards/Card'
 import Rules from 'components/Modals/Rules'
-import { countHand, isBusted } from 'utils/cards'
+import { countHand, validCounts, isBusted, dealerHolds } from 'utils/cards'
 import './Game.scss'
 
 export default class Game extends Component {
@@ -44,6 +44,34 @@ export default class Game extends Component {
   hold = () => {
     // Dealers turn
     this.setState({ turn: 'dealer' })
+    this.dealerHit()
+  }
+
+  dealerHit = () => {
+    // Check to see if dealer has won or must hold
+    const { deck, dealerHand, playerHand, wins } = this.state
+    const toBeat = Math.max(...validCounts(playerHand))
+    const dealerTotal = Math.max(...validCounts(dealerHand))
+
+    if (dealerTotal >= toBeat) {
+      console.warn('Dealer wins', dealerTotal)
+      this.setState({ turn: 'lost' })
+    } else if (dealerTotal < 17) {
+      dealerHand.push(deck.pop())
+      const dealerBusted = isBusted(dealerHand)
+      console.warn('Dealer hits', dealerBusted)
+
+      if (dealerBusted) {
+        this.setState({ dealerHand, turn: 'won', wins: wins + 1 })
+      } else {
+        this.setState({ dealerHand })
+        setTimeout(this.dealerHit, 1500)
+      }
+
+    } else {
+      console.warn('Dealer loses by default')
+      this.setState({ turn: 'won', wins: wins + 1 })
+    }
   }
 
   hit = () => {
@@ -52,9 +80,16 @@ export default class Game extends Component {
     this.setState({ playerHand, turn: isBusted(playerHand) ? 'lost' : 'player' })
   }
 
+  get dealerPublic () {
+    const { turn } = this.state
+    return turn === 'dealer' || turn === 'lost' || turn === 'won'
+  }
+
   render () {
 
     const { wins, games, started, deck, playerHand, dealerHand, showRules, turn } = this.state
+    let dealerIndex = 1
+    let playerIndex = 3
 
     return <div style={{ margin: '0 auto' }} >
 
@@ -82,14 +117,24 @@ export default class Game extends Component {
         <h4>Won { wins.toString() } / Games { games.toString() }</h4>
 
         <div className='hand'>
-          <h3>Dealer</h3>
-          { dealerHand && dealerHand.map(card => <Card className='hand-card' value={card} />)}
-          <h4>Hand: {countHand(dealerHand).join(', ')}</h4>
+          <h3>Dealer {this.dealerPublic && <span> | Hand {countHand(dealerHand).join(', ')}</span>}</h3>
+          { dealerHand && dealerHand.map((card, i) => <Card
+            className='hand-card'
+            visible={this.dealerPublic || i > 0}
+            value={card}
+            delay={(dealerIndex++ % 2) * 500}
+          />)}
+
         </div>
 
         <div className='hand'>
           <h3>Your Hand</h3>
-          { playerHand && playerHand.map(card => <Card className='hand-card' value={card} />)}
+          { playerHand && playerHand.map(card => <Card
+            className='hand-card'
+            visible={true}
+            value={card}
+            delay={(playerIndex++ % 2) * 500}
+          />)}
 
           <h4>Hand: {countHand(playerHand).join(', ')}</h4>
 
@@ -104,9 +149,16 @@ export default class Game extends Component {
           </div>}
 
           {turn === 'lost' && <div>
-            <p>Busted!</p>
+            <p>You Lost! :(</p>
             <button className='btn btn-primary' onClick={this.deal}>
-              Deal
+              Deal New Hand
+            </button>
+          </div>}
+
+          {turn === 'won' && <div>
+            <p>You Won!</p>
+            <button className='btn btn-primary' onClick={this.deal}>
+              Deal New Hand
             </button>
           </div>}
         </div>
