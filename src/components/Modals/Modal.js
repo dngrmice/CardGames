@@ -17,8 +17,13 @@ export default class Modal extends Component {
     } = this.props
 
     return <div className={open ? 'visible' : 'hidden'} {...props}>
-      <a onClick={onClose}>×</a>
-      { children }
+      <div className='window'>
+        <div className='dialog'>
+          <a className='cancel' onClick={onClose}>×</a>
+          <hr/>
+          { children }
+        </div>
+      </div>
     </div>
   }
 

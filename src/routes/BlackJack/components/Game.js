@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { newDeck } from 'utils/cards'
 import Card from 'components/Cards/Card'
 import Rules from 'components/Modals/Rules'
-import { countHand, validCounts, isBusted, dealerHolds } from 'utils/cards'
+import { countHand, validCounts, isBusted } from 'utils/cards'
 import './Game.scss'
 
 export default class Game extends Component {
@@ -25,22 +25,27 @@ export default class Game extends Component {
 
   newGame = () => {
     const deck = newDeck()
-    const { games } = this.state
-    const username = this.username.value || 'Guest'
-    this.setState({ started: true, deck, playerName: username })
+    const { playerName } = this.state
+    const username = (this.username && this.username.value) || playerName
+    this.setState({ started: true, deck, playerName: username, games: 0, wins: 0 })
     setTimeout(() => this.deal(), 50)
   }
 
   deal = () => {
     const { deck, games } = this.state
     let playerHand = [], dealerHand = []
+    console.log('New Deck', deck)
 
-    playerHand.push(deck.pop())
-    dealerHand.push(deck.pop())
-    playerHand.push(deck.pop())
-    dealerHand.push(deck.pop())
+    if (deck.length > 21) {
+      playerHand.push(deck.pop())
+      dealerHand.push(deck.pop())
+      playerHand.push(deck.pop())
+      dealerHand.push(deck.pop())
 
-    this.setState({ playerHand, dealerHand, started: true, games: games + 1, turn: 'player' })
+      this.setState({playerHand, dealerHand, started: true, games: games + 1, turn: 'player'})
+    } else {
+      this.setState({ turn: 'gameover' })
+    }
   }
 
   hold = () => {
@@ -84,7 +89,7 @@ export default class Game extends Component {
 
   get dealerPublic () {
     const { turn } = this.state
-    return turn === 'dealer' || turn === 'lost' || turn === 'won'
+    return turn !== 'player'
   }
 
   render () {
@@ -97,21 +102,23 @@ export default class Game extends Component {
 
       <h2>Black Jack</h2>
 
-      { showRules && <Rules open={true} /> }
+      { showRules && <Rules open={true} onClose={this.toggleRules} /> }
 
       {!started && <div className='start-game'>
 
         <hr/>
 
+        <h4>Howdy, Partner!</h4>
+
         <p><input
           ref={input => this.username = input}
           className='nameInput'
-          placeholder="Howdy Partner, What's Your Name"
+          placeholder="What's Your Name"
           type='text'
         /></p>
 
         <button
-          className='btn btn-primary btn-lg'
+          className='btn btn-success btn-lg'
           onClick={this.newGame}
         >
           Start Game
@@ -126,9 +133,10 @@ export default class Game extends Component {
         <div className='hand'>
           <h3>Dealer {this.dealerPublic && <span> | Hand {countHand(dealerHand).join(', ')}</span>}</h3>
           { dealerHand && dealerHand.map((card, i) => <Card
+            key={card.valueOf()}
             className='hand-card'
             visible={this.dealerPublic || i > 0}
-            value={card}
+            card={card}
             delay={(dealerIndex++ % 2) * 500}
           />)}
 
@@ -137,37 +145,49 @@ export default class Game extends Component {
         <div className='hand'>
           <h3>{playerName} | Hand {countHand(playerHand).join(', ')}</h3>
           { playerHand && playerHand.map(card => <Card
+            key={card.valueOf()}
             className='hand-card'
             visible={true}
-            value={card}
+            card={card}
             delay={(playerIndex++ % 2) * 500}
           />)}
 
-          {turn === 'player' && <div>
-            <button onClick={this.hold} className='btn btn-primary'>
-              Hold
-            </button>
-            {' '}
-            <button onClick={this.hit} className='btn btn-secondary'>
-              Hit
-            </button>
-          </div>}
+          <div className='playerActions'>
 
-          {turn === 'lost' && <div>
-            <hr/>
-            <h2>You Lost! :(</h2>
-            <button className='btn btn-primary' onClick={this.deal}>
-              Deal New Hand
-            </button>
-          </div>}
+            {turn === 'dealer' && <h2>Dealer's Turn</h2>}
 
-          {turn === 'won' && <div>
-            <hr/>
-            <h2>You Won!</h2>
-            <button className='btn btn-primary' onClick={this.deal}>
-              Deal New Hand
-            </button>
-          </div>}
+            {turn === 'player' && <div>
+              <button onClick={this.hold} className='btn btn-primary btn-lg'>
+                Hold
+              </button>
+              {' '}
+              <button onClick={this.hit} className='btn btn-success btn-lg'>
+                Hit
+              </button>
+            </div>}
+
+            {turn === 'lost' && <div>
+              <h2 className='text-danger'>You Lost! :(</h2>
+              <button className='btn btn-success btn-lg' onClick={this.deal}>
+                Deal New Hand
+              </button>
+            </div>}
+
+            {turn === 'won' && <div>
+              <h2 className='text-success'>You Won!</h2>
+              <button className='btn btn-success btn-lg' onClick={this.deal}>
+                Deal New Hand
+              </button>
+            </div>}
+
+            {turn === 'gameover' && <div>
+              <h2 className='text-alert'>Game Over</h2>
+              <p>Final Score: Won { wins.toString() } / Games { games.toString() }</p>
+              <button className='btn btn-success btn-lg' onClick={this.newGame}>
+                Start New Game
+              </button>
+            </div>}
+          </div>
         </div>
 
       </div>}

@@ -1,24 +1,14 @@
-import { fill } from './arrays'
+import { Card } from 'models/card'
 import shuffle from 'lodash/shuffle'
 
 export const DECK_SIZE = 52
 
-export const SUITS = {
-  heart: 0,
-  spade: 1,
-  diamond: 2,
-  club: 3
-}
-
-export const FACES = {
-  ace: 0,
-  jack: 10,
-  queen: 11,
-  king: 12
-}
-
-export const typeToValue = (suit, face) => {
-  return suit * 12 + face
+export const fill = (size) => {
+  let arr = new Array(size)
+  for (let i = 0; i < size; i++) {
+    arr[i] = new Card(i)
+  }
+  return arr
 }
 
 export const newDeck = () => {
@@ -29,7 +19,7 @@ export const countHand = (hand) => {
 
   return hand.reduce((counts, card) => {
     // Ace can be 1 or 11
-    let value = card % 12
+    let value = card.value % 12
 
     if (value === 0) {
       let temp = []

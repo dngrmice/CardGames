@@ -11,20 +11,20 @@ export default class Card extends Component {
   }
 
   get left () {
-    const { value } = this.props
-    return -1 * Math.floor((value % 12) * 112.75)
+    const { card } = this.props
+    return -1 * Math.floor((card.value % 12) * 112.75)
   }
 
   get top () {
-    const { value } = this.props
-    return -1 * (Math.floor(value / 13) * 157.75)
+    const { card } = this.props
+    return -1 * (Math.floor(card.value / 13) * 157.75)
   }
 
 
   render () {
     const { played } = this.state
     const {
-      value = 0,
+      card,
       visible = false,
       className,
       delay,
@@ -34,7 +34,7 @@ export default class Card extends Component {
     return <div className={className} {...props}>
       <div
         className={ played && visible ? 'card' : 'flipped' }
-        title={visible ? value : ''}
+        title={card && visible ? card.toString() : ''}
       >
         <div className='front' style={{ backgroundPosition: visible ? `${this.left}px ${this.top}px` : '' }} />
         <div className='back' />

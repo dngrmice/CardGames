@@ -1,19 +1,44 @@
 .window {
-
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  vertical-align: middle;
+  display: inline-block;
+  text-align: center;
+  z-index: 1000;
+  padding: 30px;
 }
 
-.visible {
+.dialog {
   display: inline-block;
+  width: 360px;
   max-width: 90%;
-  width: 300px;
-  vertical-align: center;
-  position: fixed;
+  vertical-align: middle;
   background: #fff;
   padding: 15px;
   color: #333;
   text-shadow: none;
   margin: 0 auto;
-  z-index: 1000;
+  max-height: 90%;
+  text-align: center;
+  overflow: auto;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .cancel {
+    font-size: 24px;
+    display: inline-block;
+    color: #335;
+  }
+
+  hr { border-color: #999; margin: 15px 0; }
 }
 
 .hidden {

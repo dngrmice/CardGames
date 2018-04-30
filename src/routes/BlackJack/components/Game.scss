@@ -1,9 +1,11 @@
 .hand {
   border: 2px solid rgba(255, 255, 255, 0.75);
-  padding: 30px 10px;
+  padding: 30px 10px 10px 10px;
   border-radius: 20px;
   margin: 30px;
   background: rgba(0,0,0,0.1);
+
+  .btn { margin: 10px 15px; min-width: 130px; }
 }
 
 .hand-card {
@@ -13,8 +15,9 @@
 .nameInput {
   font-size: 20px;
   width: 50%;
+  min-width: 300px;
   margin: 15px;
-  padding: 5px;
+  padding: 10px 5px;
   border-radius: 4px;
   text-align: center;
   border: 3px solid #222;
@@ -22,4 +25,12 @@
 
 .rules {
 
+}
+
+.playerActions {
+  background: rgba(0,0,0,0.2);
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid #222;
+  margin-top: 15px;
 }
