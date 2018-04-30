@@ -6,7 +6,8 @@
 
 .game {
   display: inline-block;
-  width: 300px;
+  width: 225px;
+  max-width: 100%;
   margin: 3rem auto;
 
   .card1 {

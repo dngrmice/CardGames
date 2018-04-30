@@ -132,6 +132,7 @@ export default class Game extends Component {
 
         <div className='hand'>
           <h3>Dealer {this.dealerPublic && <span> | Hand {countHand(dealerHand).join(', ')}</span>}</h3>
+          <div className='cards'>
           { dealerHand && dealerHand.map((card, i) => <Card
             key={card.valueOf()}
             className='hand-card'
@@ -139,18 +140,21 @@ export default class Game extends Component {
             card={card}
             delay={(dealerIndex++ % 2) * 500}
           />)}
+          </div>
 
         </div>
 
         <div className='hand'>
           <h3>{playerName} | Hand {countHand(playerHand).join(', ')}</h3>
-          { playerHand && playerHand.map(card => <Card
-            key={card.valueOf()}
-            className='hand-card'
-            visible={true}
-            card={card}
-            delay={(playerIndex++ % 2) * 500}
-          />)}
+          <div className='cards'>
+            { playerHand && playerHand.map(card => <Card
+              key={card.valueOf()}
+              className='hand-card'
+              visible={true}
+              card={card}
+              delay={(playerIndex++ % 2) * 500}
+            />)}
+          </div>
 
           <div className='playerActions'>
 
