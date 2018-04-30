@@ -2,6 +2,7 @@ import { Card } from 'models/card'
 import shuffle from 'lodash/shuffle'
 
 export const DECK_SIZE = 52
+export const TOTAL_FACES = 13
 
 export const fill = (size) => {
   let arr = new Array(size)
@@ -19,7 +20,7 @@ export const countHand = (hand) => {
 
   return hand.reduce((counts, card) => {
     // Ace can be 1 or 11
-    let value = card.value % 12
+    let value = card.value % TOTAL_FACES
 
     if (value === 0) {
       let temp = []

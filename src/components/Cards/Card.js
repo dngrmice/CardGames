@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { TOTAL_FACES } from 'utils/cards'
 import './Cards.scss'
 
 export default class Card extends Component {
@@ -12,12 +13,12 @@ export default class Card extends Component {
 
   get left () {
     const { card } = this.props
-    return -1 * Math.floor((card.value % 12) * 112.75)
+    return -1 * Math.floor((card.value % TOTAL_FACES) * 112.75)
   }
 
   get top () {
     const { card } = this.props
-    return -1 * (Math.floor(card.value / 13) * 157.75)
+    return -1 * (Math.floor(card.value / TOTAL_FACES) * 157.75)
   }
 
 
