@@ -12,17 +12,18 @@ body {
   margin: 0;
   padding: 0;
   font-size: 14px;
-  font-family: 'Muli', sans-serif;
+  font-family: 'Mulish', sans-serif;
   background: #555 url("assets/noise.png");
   text-shadow: 0 1px 1px #000;
 }
 
 body {
-  padding: 15px;
+  padding: 2rem;
 }
 
 h1, h2, h3, h4 {
   font-family: 'Cinzel Decorative', sans-serif;
+  font-weight: bold;
 }
 
 hr {

@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { newDeck } from 'utils/cards'
 import Card from 'components/Cards/Card'
 import Rules from 'components/Modals/Rules'
-import { countHand, validCounts, isBusted } from 'utils/cards'
+import { newDeck, countHand, validCounts, isBusted } from 'utils/cards'
+
+import Filligre from 'components/assets/Filligre'
+
 import './Game.scss'
 
 export default class Game extends Component {
-
   state = {
     started: false,
     deck: false,
@@ -42,7 +43,7 @@ export default class Game extends Component {
       playerHand.push(deck.pop())
       dealerHand.push(deck.pop())
 
-      this.setState({playerHand, dealerHand, started: true, games: games + 1, turn: 'player'})
+      this.setState({ playerHand, dealerHand, started: true, games: games + 1, turn: 'player' })
     } else {
       this.setState({ turn: 'gameover' })
     }
@@ -74,7 +75,6 @@ export default class Game extends Component {
         this.setState({ dealerHand })
         setTimeout(this.dealerHit, 1500)
       }
-
     } else {
       console.warn('Dealer loses by default')
       this.setState({ turn: 'won', wins: wins + 1 })
@@ -93,53 +93,68 @@ export default class Game extends Component {
   }
 
   render () {
-
     const { playerName, wins, games, started, playerHand, dealerHand, showRules, turn } = this.state
     let dealerIndex = 1
     let playerIndex = 3
 
-    return <div style={{ margin: '0 auto' }} >
+    return <div className='app-game container' style={{ margin: '0 auto' }}>
 
-      <h2>Black Jack</h2>
+      <div className='header'>
+        <Filligre className='filligre' />
+        <h2>Black Jack</h2>
+        <Filligre className='filligre flip-h' />
+      </div>
 
-      { showRules && <Rules open={true} onClose={this.toggleRules} /> }
+      <div className='row'>
+        <div className='col-md-6 text-left'>
+          {started && <h4>Won {wins.toString()} / Games {games.toString()}</h4>}
+        </div>
+        <div className='col-md-6 text-right'>
+          <button className='btn btn-outline-info' onClick={this.toggleRules}>Show Rules</button>
+        </div>
+      </div>
+
+      {showRules && <Rules open onClose={this.toggleRules} />}
 
       {!started && <div className='start-game'>
 
-        <hr/>
+        <hr />
 
         <h4>Howdy, Partner!</h4>
 
-        <p><input
-          ref={input => this.username = input}
-          className='nameInput'
-          placeholder="What's Your Name"
-          type='text'
-        /></p>
+        <form onSubmit={this.newGame}>
+          <div>
+            <input
+              ref={input => this.username = input}
+              className='nameInput'
+              placeholder="What's Your Name"
+              type='text'
+            />
+          </div>
 
-        <button
-          className='btn btn-success btn-lg'
-          onClick={this.newGame}
-        >
-          Start Game
-        </button>
+          <button
+            type='submit'
+            className='btn btn-success btn-lg'
+            onClick={this.newGame}
+          >
+            Start Game
+          </button>
+        </form>
 
       </div>}
 
-      { started && <div className='blackjack-game'>
-
-        <h4>Won { wins.toString() } / Games { games.toString() }</h4>
+      {started && <div className='blackjack-game'>
 
         <div className='hand'>
           <h3>Dealer {this.dealerPublic && <span> | Hand {countHand(dealerHand).join(', ')}</span>}</h3>
           <div className='cards'>
-          { dealerHand && dealerHand.map((card, i) => <Card
-            key={card.valueOf()}
-            className='hand-card'
-            visible={this.dealerPublic || i > 0}
-            card={card}
-            delay={(dealerIndex++ % 2) * 500}
-          />)}
+            {dealerHand && dealerHand.map((card, i) => <Card
+              key={card.valueOf()}
+              className='hand-card'
+              visible={this.dealerPublic || i > 0}
+              card={card}
+              delay={(dealerIndex++ % 2) * 500}
+            />)}
           </div>
 
         </div>
@@ -147,10 +162,10 @@ export default class Game extends Component {
         <div className='hand'>
           <h3>{playerName} | Hand {countHand(playerHand).join(', ')}</h3>
           <div className='cards'>
-            { playerHand && playerHand.map(card => <Card
+            {playerHand && playerHand.map(card => <Card
               key={card.valueOf()}
               className='hand-card'
-              visible={true}
+              visible
               card={card}
               delay={(playerIndex++ % 2) * 500}
             />)}
@@ -186,7 +201,7 @@ export default class Game extends Component {
 
             {turn === 'gameover' && <div>
               <h2 className='text-alert'>Game Over</h2>
-              <p>Final Score: Won { wins.toString() } / Games { games.toString() }</p>
+              <p>Final Score: Won {wins.toString()} / Games {games.toString()}</p>
               <button className='btn btn-success btn-lg' onClick={this.newGame}>
                 Start New Game
               </button>
@@ -196,10 +211,6 @@ export default class Game extends Component {
 
       </div>}
 
-      <hr/>
-      <button className='btn btn-secondary' onClick={this.toggleRules}>Show Rules</button>
-
     </div>
   }
-
 }

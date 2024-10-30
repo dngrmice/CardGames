@@ -1,41 +1,69 @@
-.hand {
-  border: 2px solid rgba(255, 255, 255, 0.75);
-  padding: 30px 10px 10px 10px;
-  border-radius: 20px;
-  margin: 15px 0;
-  background: rgba(0,0,0,0.1);
+.app-game {
+  .header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+  }
 
-  .btn { margin: 10px 15px; min-width: 130px; }
-}
+  .filligre {
+    fill: antiquewhite;
+    top: 10px;
+    width: 80px;
+    margin: 0 1rem;
+  }
 
-.hand-card {
-  display: inline-block;
-}
+  .flip-h {
+    transform: scale(-1, 1);
+  }
 
-@media (max-width: 768px) {
-  .hand-card { margin-left: -85px; }
-  .hand-card:first-child { margin-left: 0; }
-}
+  .hand {
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    padding: 30px 10px 10px 10px;
+    border-radius: 20px;
+    margin: 15px 0;
+    background: rgba(0, 0, 0, 0.1);
 
-.nameInput {
-  font-size: 20px;
-  width: 50%;
-  min-width: 90%;
-  margin: 15px;
-  padding: 10px 2px;
-  border-radius: 4px;
-  text-align: center;
-  border: 3px solid #222;
-}
+    .btn {
+      margin: 10px 15px;
+      min-width: 130px;
+    }
+  }
 
-.rules {
+  .hand-card {
+    display: inline-block;
+  }
 
-}
+  @media (max-width: 768px) {
+    .hand-card {
+      margin-left: -85px;
+    }
+    .hand-card:first-child {
+      margin-left: 0;
+    }
+  }
 
-.playerActions {
-  background: rgba(0,0,0,0.2);
-  padding: 30px 15px;
-  border-radius: 10px;
-  border: 1px solid #222;
-  margin-top: 15px;
+  .nameInput {
+    font-size: 20px;
+    width: 50%;
+    min-width: 90%;
+    margin: 15px;
+    padding: 10px 2px;
+    border-radius: 4px;
+    text-align: center;
+    border: 3px solid #222;
+  }
+
+  .rules {
+
+  }
+
+  .playerActions {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 30px 15px;
+    border-radius: 10px;
+    border: 1px solid #222;
+    margin-top: 15px;
+  }
 }
