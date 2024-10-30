@@ -13,7 +13,8 @@
   backface-visibility: hidden;
 
   &:hover {
-    box-shadow: 0 0 15px #f0f0f0;
+    scale: 1.05;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
   }
 }
 

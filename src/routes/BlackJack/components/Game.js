@@ -169,19 +169,26 @@ export default class Game extends Component {
               card={card}
               delay={(playerIndex++ % 2) * 500}
             />)}
+            {turn === 'player' && <button type='button' onClick={this.hit} className="card-hit">
+              <Card
+                key={-1}
+                className='hand-card'
+                card={0}
+              />
+              <span className='overlay'>
+                <i className="fa-light fa-hand-point-down" />
+                <span className='label'>HIT</span>
+              </span>
+            </button>}
           </div>
 
-          <div className='playerActions'>
+          <div className="playerActions">
 
             {turn === 'dealer' && <h2>Dealer's Turn</h2>}
 
             {turn === 'player' && <div>
               <button onClick={this.hold} className='btn btn-primary btn-lg'>
-                Hold
-              </button>
-              {' '}
-              <button onClick={this.hit} className='btn btn-success btn-lg'>
-                Hit
+                <i className='fa-light fa-hand' /> Stand
               </button>
             </div>}
 

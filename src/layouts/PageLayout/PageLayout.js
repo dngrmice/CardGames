@@ -8,9 +8,9 @@ export const PageLayout = ({ children }) => <div className='cardTable'>
 
       <hr/>
 
-      <Link to='/'>Home</Link>
-      {' | '}
-      <a target='_blank' href='http://joek.me'>Joseph Kelly</a>
+      <Link to='/'>CARD GAMES</Link>
+      {' • '}
+      <a target='_blank' href='http://joek.me'>JOEK.ME</a>
     </div>
 </div>
 
