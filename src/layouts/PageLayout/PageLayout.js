@@ -6,7 +6,7 @@ export const PageLayout = ({ children }) => <div className='cardTable'>
     <div className='container text-center'>
       {children}
 
-      <hr/>
+      <hr />
 
       <Link to='/'>CARD GAMES</Link>
       {' • '}

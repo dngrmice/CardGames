@@ -99,33 +99,40 @@ export default class Game extends Component {
 
     return <div className='app-game container' style={{ margin: '0 auto' }}>
 
+      <nav>
+        <button
+          aria-label='Show Rules'
+          className='btn btn-info btn-rules'
+          data-toggle='tooltip'
+          title='Show Rules'
+          onClick={this.toggleRules}
+        >
+          <i className='fa-light fa-book' />
+        </button>
+      </nav>
+
       <div className='header'>
         <Filligre className='filligre' />
         <h2>Black Jack</h2>
         <Filligre className='filligre flip-h' />
       </div>
 
-      <div className='row'>
-        <div className='col-md-6 text-left'>
-          {started && <h4>Won {wins.toString()} / Games {games.toString()}</h4>}
-        </div>
-        <div className='col-md-6 text-right'>
-          <button className='btn btn-outline-info' onClick={this.toggleRules}>Show Rules</button>
-        </div>
+      <div className='text-center mt-2'>
+        {started && <h4>Won {wins.toString()} / <span className='d-sm-inline'>Games</span> {games.toString()}</h4>}
       </div>
 
       {showRules && <Rules open onClose={this.toggleRules} />}
 
-      {!started && <div className='start-game'>
-
-        <hr />
+      {!started && <div className='hand start-game'>
 
         <h4>Howdy, Partner!</h4>
 
         <form onSubmit={this.newGame}>
           <div>
             <input
-              ref={input => this.username = input}
+              ref={(input) => {
+                this.username = input
+              }}
               className='nameInput'
               placeholder="What's Your Name"
               type='text'
@@ -146,6 +153,7 @@ export default class Game extends Component {
       {started && <div className='blackjack-game'>
 
         <div className='hand'>
+
           <h3>Dealer {this.dealerPublic && <span> | Hand {countHand(dealerHand).join(', ')}</span>}</h3>
           <div className='cards'>
             {dealerHand && dealerHand.map((card, i) => <Card
@@ -169,20 +177,20 @@ export default class Game extends Component {
               card={card}
               delay={(playerIndex++ % 2) * 500}
             />)}
-            {turn === 'player' && <button type='button' onClick={this.hit} className="card-hit">
+            {turn === 'player' && <button type='button' onClick={this.hit} className='card-hit'>
               <Card
                 key={-1}
                 className='hand-card'
                 card={0}
               />
               <span className='overlay'>
-                <i className="fa-light fa-hand-point-down" />
+                <i className='fa-light fa-hand-point-down' />
                 <span className='label'>HIT</span>
               </span>
             </button>}
           </div>
 
-          <div className="playerActions">
+          <div className='playerActions'>
 
             {turn === 'dealer' && <h2>Dealer's Turn</h2>}
 

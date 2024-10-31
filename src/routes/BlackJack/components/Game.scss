@@ -7,24 +7,21 @@
     width: 100%;
     white-space: nowrap;
 
-    h2 { position: relative; top: -1rem; }
+    h2 { position: relative; top: -1rem; margin: 0 -0.5rem; }
   }
 
   .filligre {
     fill: antiquewhite;
     top: 10px;
     width: 80px;
-    margin: 0 1rem;
-    margin-right: -1rem;
   }
 
   .flip-h {
     transform: scale(-1, 1);
-    margin-left: -1rem;
-    margin-right: 0;
   }
 
   .hand {
+    position: relative;
     border: 2px solid rgba(255, 255, 255, 0.75);
     padding: 30px 10px 10px 10px;
     border-radius: 20px;
@@ -33,8 +30,13 @@
 
     .btn {
       margin: 10px 15px;
-      min-width: 130px;
+      min-width: 150px;
     }
+  }
+
+  .btn-rules {
+    min-width: 0 !important;
+    float: right;
   }
 
   .hand-card {
@@ -48,6 +50,7 @@
     border: none;
     background: none;
     margin-left: 1rem;
+    scale: 0.9;
 
     .hand-card { opacity: 0.25; margin: 4px 2px 0 5px; transition: 0.2s; }
     .overlay {
@@ -107,6 +110,7 @@
   }
 
   .playerActions {
+    position: relative;
     background: rgba(0, 0, 0, 0.2);
     padding: 30px 15px;
     border-radius: 10px;
