@@ -1,4 +1,5 @@
 import { Card } from 'models/card'
+import { Deck } from 'models/deck'
 import shuffle from 'lodash/shuffle'
 
 export const DECK_SIZE = 52
@@ -12,8 +13,14 @@ export const fill = (size) => {
   return arr
 }
 
-export const newDeck = () => {
-  return shuffle(fill(DECK_SIZE))
+export const newDeck = (decks = 1) => {
+  const cards = []
+  for (let i = 0; i < decks; i++) {
+    cards.push(...fill(DECK_SIZE))
+  }
+
+  // console.warn('cards', cards)
+  return (new Deck(shuffle(cards)))
 }
 
 export const countHand = (hand) => {

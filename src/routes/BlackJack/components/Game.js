@@ -1,11 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Card from 'components/Cards/Card'
+
 import Rules from 'components/Modals/Rules'
 import { newDeck, countHand, validCounts, isBusted } from 'utils/cards'
 
 import Filligre from 'components/assets/Filligre'
 
 import './Game.scss'
+
+const TURN_DELAY = 2200
 
 export default class Game extends Component {
   state = {
@@ -17,6 +20,8 @@ export default class Game extends Component {
     showRules: false,
     wins: 0,
     games: 0,
+    totalDecks: 2,
+    redCardIndex: 21,
     playerName: 'Guest'
   }
 
@@ -25,26 +30,33 @@ export default class Game extends Component {
   }
 
   newGame = () => {
-    const deck = newDeck()
-    const { playerName } = this.state
+    const { playerName, totalDecks } = this.state
+
+    const deck = newDeck(totalDecks || 1)
+
     const username = (this.username && this.username.value) || playerName
     this.setState({ started: true, deck, playerName: username, games: 0, wins: 0 })
     setTimeout(() => this.deal(), 50)
   }
 
   deal = () => {
-    const { deck, games } = this.state
-    let playerHand = [], dealerHand = []
-    console.log('New Deck', deck)
+    const { deck, games, redCardIndex } = this.state
+    let playerHand = []
+    let dealerHand = []
 
-    if (deck.length > 21) {
+    if (deck.length > redCardIndex) {
       playerHand.push(deck.pop())
       dealerHand.push(deck.pop())
       playerHand.push(deck.pop())
       dealerHand.push(deck.pop())
 
-      this.setState({ playerHand, dealerHand, started: true, games: games + 1, turn: 'player' })
+      this.setState({ playerHand, dealerHand, started: true, games: games + 1, turn: 'player' }, () => {
+        if (countHand(playerHand).includes(21)) {
+          this.hold()
+        }
+      })
     } else {
+      // console.log('Deck', deck)
       this.setState({ turn: 'gameover' })
     }
   }
@@ -73,7 +85,7 @@ export default class Game extends Component {
         this.setState({ dealerHand, turn: 'won', wins: wins + 1 })
       } else {
         this.setState({ dealerHand })
-        setTimeout(this.dealerHit, 1500)
+        setTimeout(this.dealerHit, TURN_DELAY)
       }
     } else {
       console.warn('Dealer loses by default')
@@ -84,6 +96,13 @@ export default class Game extends Component {
   hit = () => {
     const { deck, playerHand } = this.state
     playerHand.push(deck.pop())
+
+    if (countHand(playerHand).includes(21)) {
+      this.setState({ playerHand })
+      this.hold()
+      return
+    }
+
     this.setState({ playerHand, turn: isBusted(playerHand) ? 'lost' : 'player' })
   }
 
@@ -93,23 +112,23 @@ export default class Game extends Component {
   }
 
   render () {
-    const { playerName, wins, games, started, playerHand, dealerHand, showRules, turn } = this.state
+    const {
+      deck,
+      playerName,
+      wins,
+      games,
+      started,
+      playerHand,
+      dealerHand,
+      showRules,
+      turn,
+      totalDecks,
+      redCardIndex
+    } = this.state
     let dealerIndex = 1
     let playerIndex = 3
 
     return <div className='app-game container' style={{ margin: '0 auto' }}>
-
-      <nav>
-        <button
-          aria-label='Show Rules'
-          className='btn btn-info btn-rules'
-          data-toggle='tooltip'
-          title='Show Rules'
-          onClick={this.toggleRules}
-        >
-          <i className='fa-light fa-book' />
-        </button>
-      </nav>
 
       <div className='header'>
         <Filligre className='filligre' />
@@ -117,26 +136,81 @@ export default class Game extends Component {
         <Filligre className='filligre flip-h' />
       </div>
 
-      <div className='text-center mt-2'>
-        {started && <h4>Won {wins.toString()} / <span className='d-sm-inline'>Games</span> {games.toString()}</h4>}
+      <div className='row mt-2 game-info'>
+        <div className='col-sm-6 text-left'>
+          {started && <h4>Won {wins.toString()} / <span className='d-sm-inline'>Games</span> {games.toString()}</h4>}
+        </div>
+        <div className='col-sm-6'>
+          <div className='dropdown'>
+            {started && <button
+              aria-label='Back'
+              className='btn btn-info btn-rules m1-1'
+              data-toggle='tooltip'
+              title='Back'
+              onClick={() => { this.setState({ started: false }) }}
+            >
+              <i className='fa-light fa-arrow-left' />
+            </button>}
+
+            {started && <button
+              aria-label='Restart'
+              className='btn btn-info btn-rules m1-1'
+              data-toggle='tooltip'
+              title='Restart'
+              onClick={this.newGame}
+            >
+              <i className='fa-light fa-redo' />
+            </button>}
+
+            <button
+              aria-label='Show Rules'
+              className='btn btn-info btn-rules'
+              data-toggle='tooltip'
+              title='Show Rules'
+              onClick={this.toggleRules}
+            >
+              <i className='fa-light fa-book' />
+            </button>
+
+          </div>
+        </div>
       </div>
 
       {showRules && <Rules open onClose={this.toggleRules} />}
 
       {!started && <div className='hand start-game'>
 
-        <h4>Howdy, Partner!</h4>
+        <h3>Howdy, Partner!</h3>
 
         <form onSubmit={this.newGame}>
-          <div>
-            <input
-              ref={(input) => {
-                this.username = input
-              }}
-              className='nameInput'
-              placeholder="What's Your Name"
-              type='text'
-            />
+          <div className='row'>
+            <div className='col-sm-12'>
+              <input
+                ref={(input) => {
+                  this.username = input
+                }}
+                className='nameInput'
+                placeholder="What's Your Name"
+                type='text'
+              />
+            </div>
+          </div>
+
+          <div className='row deck-options'>
+            <div className='col-md-6'><h4>Decks</h4></div>
+            <div className='col-md-6 '>
+              <button className='deck-total-btn' type='button' onClick={() => {
+                this.setState({ totalDecks: Math.max(totalDecks - 1, 1) })
+              }}>
+                <i className='fa-light fa-circle-minus' />
+              </button>
+              {totalDecks}
+              <button className='deck-total-btn' type='button' onClick={() => {
+                this.setState({ totalDecks: Math.min(totalDecks + 1, 8) })
+              }}>
+                <i className='fa-light fa-circle-plus' />
+              </button>
+            </div>
           </div>
 
           <button
@@ -151,6 +225,22 @@ export default class Game extends Component {
       </div>}
 
       {started && <div className='blackjack-game'>
+
+        {deck && <div className={`card-shoe ${totalDecks > 3 ? 'shoe-large' : ''}`}>
+          {deck.value.slice(0, redCardIndex).map((card) => <Card
+            className='hand-card'
+            visible={false}
+            card={card}
+          />)}
+          {deck.value.length > redCardIndex && <Fragment>
+            <div className='red-card' />
+            {deck.value.slice(redCardIndex).map((card) => <Card
+              className='hand-card'
+              visible={false}
+              card={card}
+            />)}
+          </Fragment>}
+        </div>}
 
         <div className='hand'>
 
@@ -184,7 +274,7 @@ export default class Game extends Component {
                 card={0}
               />
               <span className='overlay'>
-                <i className='fa-light fa-hand-point-down' />
+                <i className='fa-light fa-hand-point-down'/>
                 <span className='label'>HIT</span>
               </span>
             </button>}
@@ -196,7 +286,7 @@ export default class Game extends Component {
 
             {turn === 'player' && <div>
               <button onClick={this.hold} className='btn btn-primary btn-lg'>
-                <i className='fa-light fa-hand' /> Stand
+                <i className='fa-light fa-hand'/> Stand
               </button>
             </div>}
 

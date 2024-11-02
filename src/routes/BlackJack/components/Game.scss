@@ -1,4 +1,5 @@
 .app-game {
+
   .header {
     display: flex;
     align-items: center;
@@ -20,6 +21,10 @@
     transform: scale(-1, 1);
   }
 
+  .game-info {
+    .btn { margin-left: 0.5rem; }
+  }
+
   .hand {
     position: relative;
     border: 2px solid rgba(255, 255, 255, 0.75);
@@ -31,6 +36,43 @@
     .btn {
       margin: 10px 15px;
       min-width: 150px;
+    }
+  }
+
+  .card-shoe {
+    position: absolute;
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    top: 12rem;
+    left: 1rem;
+    overflow: visible;
+    width: 110px;
+
+    .hand-card, .red-card { top: 0; left: 0; scale: 0.6; margin: 0; transform: rotate(90deg); }
+    .hand-card { height: 2px; }
+    .red-card { height: 4px; left: 5px; top: 5px; }
+
+    &.shoe-large {
+      .hand-card, .red-card { scale: 0.3; }
+    }
+
+    @media (max-width: 900px) {
+      left: -2.4rem;
+      .hand-card { height: 1px; }
+    }
+  }
+
+  .deck-options {
+    font-size: 2rem;
+
+    .btn { margin-left: 0.5rem; }
+
+    .deck-total-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      margin: 0 1rem;
     }
   }
 
