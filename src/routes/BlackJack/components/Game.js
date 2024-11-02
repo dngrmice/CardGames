@@ -77,6 +77,14 @@ export default class Game extends Component {
     this.dealerHit()
   }
 
+  onWinLose = () => {
+    const { deck, redCardIndex } = this.state
+
+    if (deck.length < redCardIndex) {
+      this.setState({ turn: 'gameover' })
+    }
+  }
+
   dealerHit = () => {
     // Check to see if dealer has won or must hold
     const { deck, dealerHand, playerHand, wins } = this.state
@@ -85,21 +93,21 @@ export default class Game extends Component {
 
     if (dealerTotal >= toBeat) {
       console.warn('Dealer wins', dealerTotal)
-      this.setState({ turn: 'lost' })
+      this.setState({ turn: 'lost' }, this.onWinLose)
     } else if (dealerTotal < 17) {
       dealerHand.push(deck.pop())
       const dealerBusted = isBusted(dealerHand)
       console.warn('Dealer hits', dealerBusted)
 
       if (dealerBusted) {
-        this.setState({ dealerHand, turn: 'won', wins: wins + 1 })
+        this.setState({ dealerHand, turn: 'won', wins: wins + 1 }, this.onWinLose)
       } else {
         this.setState({ dealerHand })
         setTimeout(this.dealerHit, TURN_DELAY)
       }
     } else {
       console.warn('Dealer loses by default')
-      this.setState({ turn: 'won', wins: wins + 1 })
+      this.setState({ turn: 'won', wins: wins + 1 }, this.onWinLose)
     }
   }
 
@@ -223,7 +231,7 @@ export default class Game extends Component {
           </h3>
           <div className='cards'>
             {dealerHand && dealerHand.map((card, i) => <Card
-              key={card.valueOf()}
+              // key={card.valueOf()}
               className='hand-card'
               visible={this.dealerPublic || i > 0}
               card={card}
@@ -240,7 +248,7 @@ export default class Game extends Component {
           </h3>
           <div className='cards'>
             {playerHand && playerHand.map(card => <Card
-              key={card.valueOf()}
+              // key={card.valueOf()}
               className='hand-card'
               visible
               card={card}
