@@ -16,6 +16,7 @@ const mapCountsToDisplay = (value) => <span className={`value ${value > 21 ? 'bu
 
 export default class Game extends Component {
   state = {
+    theme: 'theme-green-drop',
     started: false,
     deck: false,
     dealerHand: [],
@@ -131,6 +132,7 @@ export default class Game extends Component {
 
   render () {
     const {
+      theme,
       deck,
       playerName,
       wins,
@@ -197,13 +199,15 @@ export default class Game extends Component {
       {showRules && <Rules open onClose={this.toggleRules} />}
 
       {!started && <Settings
+        theme={theme}
         playerName={playerName}
         totalDecks={totalDecks}
         setDecks={(decks) => { this.setState({ totalDecks: decks }) }}
+        setTheme={(theme) => { this.setState( { theme }) }}
         onSubmit={this.newGame}
       />}
 
-      {started && <div className='blackjack-game'>
+      {started && <div className={`blackjack-game ${theme}`}>
 
         {deck && <div
           className={`card-shoe ${isLastGame ? 'last-game' : 'active'} ${totalDecks > 3 ? 'shoe-large' : ''}`}

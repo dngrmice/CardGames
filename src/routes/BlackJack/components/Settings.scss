@@ -1,0 +1,37 @@
+.game-settings {
+
+  h4 { padding: 1rem 0; }
+
+  .nameInput {
+    font-size: 20px;
+    width: 50%;
+    min-width: 90%;
+    margin: 15px;
+    padding: 10px 2px;
+    border-radius: 4px;
+    text-align: center;
+    border: 3px solid #222;
+  }
+
+  .deck-options {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+
+    .btn { margin-left: 0.5rem; }
+
+    .deck-total-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      margin: 0 1rem;
+    }
+  }
+
+  .theme-options {
+    small { color: #fff; }
+
+    .theme-option { position: relative; }
+    i { position:absolute; top: -0.2rem; left: -0.5rem; color: #fff; font-size: 2rem; }
+  }
+}

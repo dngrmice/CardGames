@@ -30,7 +30,7 @@ export default class Card extends Component {
       ...props
     } = this.props
 
-    return <div className={className} {...props}>
+    return <div className={`playing-card ${className}`} {...props}>
       <div
         className={played && visible ? 'card' : 'flipped'}
         title={card && visible ? card.toString() : ''}

@@ -43,6 +43,12 @@
 .flipped {
   @extend .card;
   transform: rotateY(180deg);
+
+  &:hover {
+    scale: 1.05;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    z-index: 1;
+  }
 }
 
 .front {
@@ -73,4 +79,28 @@
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.theme-tatoo .back {
+  background-image: url('./assets/back-@Indah-Romawan.png');
+}
+
+.theme-green-drop .back {
+  background-image: url('./assets/back.png');
+}
+
+.theme-blue-drop .back {
+  background-image: url('./assets/back-blue-drop.png');
+}
+
+.theme-stellar-saturn .back {
+  background-image: url('./assets/back-saturn.png');
+}
+
+.theme-stellar-satellite .back {
+  background-image: url('./assets/back-stellar-satellite.png');
+}
+
+.theme-conspiracy .back {
+  background-image: url('./assets/back-conspiracy.png');
 }
