@@ -9,11 +9,11 @@
     width: 100%;
     white-space: nowrap;
 
-    h2 { position: relative; top: -1rem; margin: 0 -0.5rem; }
+    h1 { position: relative; top: -1rem; margin: 0 -0.5rem; color: antiquewhite; }
   }
 
   .filligre {
-    fill: antiquewhite;
+    fill: #A90;
     top: 10px;
     width: 80px;
   }
@@ -23,6 +23,7 @@
   }
 
   .game-info {
+    margin: 1rem 0;
     display: flex;
     justify-content: space-between;
 
@@ -42,21 +43,32 @@
       margin: 10px 15px;
       min-width: 150px;
     }
+
+    .hand-values {
+      .value:after { content: ', ' }
+      .value:last-child:after { content: '' }
+      .busted { opacity: 0.5; text-decoration: line-through; }
+    }
   }
 
   .card-shoe {
     position: fixed;
-    display: flex;
-    flex-direction: column-reverse;
-    flex-wrap: nowrap;
     top: 12rem;
     left: 4rem;
     overflow: visible;
     width: 110px;
 
+    .shoe-cards {
+      display: flex;
+      flex-direction: column-reverse;
+      flex-wrap: nowrap;
+      align-content: end;
+    }
+
     .hand-card, .red-card { top: 0; left: 0; scale: 0.6; margin: 0; transform: rotate(90deg); }
     .hand-card { height: 2px; }
-    .red-card { height: 4px; left: 5px; top: 5px; }
+    .red-card { height: 4px; left: 3px; top: 5px; }
+    .back-half { height: 1px; }
 
     &.shoe-large {
       .hand-card, .red-card { scale: 0.3; }
@@ -159,6 +171,10 @@
 
   .rules {
 
+  }
+
+  .text-danger {
+    text-shadow: 0 1px 1px rgba(0,0,0,0.8);
   }
 
   .playerActions {
