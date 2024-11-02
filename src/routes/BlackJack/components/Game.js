@@ -146,6 +146,8 @@ export default class Game extends Component {
     let dealerIndex = 1
     let playerIndex = 3
 
+    const isLastGame = (deck.length < redCardIndex)
+
     return <div className='app-game container' style={{ margin: '0 auto' }}>
 
       <div className='header'>
@@ -203,7 +205,9 @@ export default class Game extends Component {
 
       {started && <div className='blackjack-game'>
 
-        {deck && <div className={`card-shoe ${totalDecks > 3 ? 'shoe-large' : ''}`}>
+        {deck && <div
+          className={`card-shoe ${isLastGame ? 'last-game' : 'active'} ${totalDecks > 3 ? 'shoe-large' : ''}`}
+        >
           <div ref={(el) => { this.shoe = el }} className='shoe-cards'>
             {deck.value.slice(0, redCardIndex).map((card, i) => <Card
               className='hand-card back-half'

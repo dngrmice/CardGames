@@ -57,17 +57,27 @@
     left: 4rem;
     overflow: visible;
     width: 110px;
+    transition: 0.4s;
+
+    &.last-game {
+      mix-blend-mode: screen;
+    }
+
+    &.active {
+      opacity: 1;
+    }
 
     .shoe-cards {
       display: flex;
       flex-direction: column-reverse;
       flex-wrap: nowrap;
       align-content: end;
+      //transform: rotateX(1.1turn);
     }
 
-    .hand-card, .red-card { top: 0; left: 0; scale: 0.6; margin: 0; transform: rotate(90deg); }
+    .hand-card, .red-card { image-rendering: crisp-edges; top: 0; left: 0; scale: 0.6; margin: 0; transform: rotate(90deg); }
     .hand-card { height: 2px; }
-    .red-card { height: 4px; left: 3px; top: 5px; }
+    .red-card { height: 3px; left: 1px; top: 3px; }
     .back-half { height: 1px; }
 
     &.shoe-large {
