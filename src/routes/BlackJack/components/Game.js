@@ -60,7 +60,7 @@ export default class Game extends Component {
       playerHand.push(deck.pop())
       dealerHand.push(deck.pop())
 
-      this.setState({ playerHand, dealerHand, started: true, games: games + 1, turn: 'player' }, () => {
+      this.setState({ playerHand, dealerHand, started: true, games: (games + 1), turn: 'player' }, () => {
         if (countHand(playerHand).includes(21)) {
           this.hold()
         }
@@ -298,7 +298,7 @@ export default class Game extends Component {
             {turn === 'gameover' && <div>
               <h2 className='text-alert'>Game Over</h2>
               <p>Final Score: Won {wins.toString()} / Games {games.toString()}</p>
-              <button className='btn btn-success btn-lg' onClick={this.newGame}>
+              <button className='btn btn-success btn-lg' onClick={() => { this.newGame() }}>
                 Start New Game
               </button>
             </div>}

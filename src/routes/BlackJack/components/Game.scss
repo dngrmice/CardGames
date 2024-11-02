@@ -77,7 +77,11 @@
 
     .hand-card, .red-card { image-rendering: crisp-edges; top: 0; left: 0; scale: 0.6; margin: 0; transform: rotate(90deg); }
     .hand-card { height: 2px; }
-    .red-card { height: 3px; left: 1px; top: 3px; }
+    .red-card {
+      height: 3px;
+      left: -2px;
+      top: 2px;
+    }
     .back-half { height: 1px; }
 
     &.shoe-large {
