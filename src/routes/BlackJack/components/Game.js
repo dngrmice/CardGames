@@ -136,11 +136,9 @@ export default class Game extends Component {
         <Filligre className='filligre flip-h' />
       </div>
 
-      <div className='row mt-2 game-info'>
-        <div className='col-sm-6 text-left'>
-          {started && <h4>Won {wins.toString()} / <span className='d-sm-inline'>Games</span> {games.toString()}</h4>}
-        </div>
-        <div className='col-sm-6'>
+      <div className='mt-2 game-info'>
+        {started && <h4>Won {wins.toString()} / <span className='d-sm-inline'>Games</span> {games.toString()}</h4>}
+        <div className='options'>
           <div className='dropdown'>
             {started && <button
               aria-label='Back'

@@ -23,6 +23,10 @@
   }
 
   .game-info {
+    display: flex;
+    justify-content: space-between;
+
+    .options { margin-left: auto; }
     .btn { margin-left: 0.5rem; }
   }
 
@@ -41,12 +45,12 @@
   }
 
   .card-shoe {
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column-reverse;
     flex-wrap: nowrap;
     top: 12rem;
-    left: 1rem;
+    left: 4rem;
     overflow: visible;
     width: 110px;
 
@@ -56,6 +60,11 @@
 
     &.shoe-large {
       .hand-card, .red-card { scale: 0.3; }
+    }
+
+    @media (max-width: 1300px) {
+      left: 2rem;
+      .hand-card { height: 1px; }
     }
 
     @media (max-width: 900px) {
